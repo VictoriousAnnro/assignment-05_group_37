@@ -1,0 +1,11 @@
+I have fiddled with the Item type, as - besides just making the code look nicer - 
+making items like 'Conjured' implement Item adheres to the principles LSP and OCP.
+
+LSP - Since all items are an item. they share properties like name, SellIn ect. 
+By making the specific kind of items (like Aged Brie ect.) inherit from a general Item class,
+we can make use of polymorphism. Since all items are subtypes of Item, we know they have the same 
+properties and methods, and can therefor call UpdateQuality() on them all. 
+We no longer have a long if-statement, and the code is more readable.
+
+OCP - We wish to change the code for items, in order to let 'Conjured's quality degrade twice as fast.
+We extend the items original behaviors, without changing the original Item class. 

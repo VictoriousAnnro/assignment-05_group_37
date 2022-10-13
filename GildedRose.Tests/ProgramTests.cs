@@ -8,7 +8,8 @@ public class ProgramTests
     public void Quality_and_SellIn_Should_Decrease_by_1_PerDay()
     {
         items = new List<Item>{
-            new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 }
+            new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+            //new AgedBrie { Name = "Aged Brie", SellIn = 2, Quality = 0 }
             };
 
         Program.UpdateQuality(items);
@@ -44,13 +45,10 @@ public class ProgramTests
     public void Quality_never_over_50()
     {
         items = new List<Item>{
-            new Item { Name = "Aged Brie", SellIn = 0, Quality = 50 },
-            new Item
-                {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
-                    SellIn = 8,
-                    Quality = 50
-                }
+            new AgedBrie (name: "Aged Brie", sellIn: 0, quality: 49),
+            new BackStagepass(name: "Backstage passes to a TAFKAL80ETC concert",
+                            sellIn: 8, 
+                            quality: 49)
             };
 
         Program.UpdateQuality(items);
@@ -63,7 +61,7 @@ public class ProgramTests
     public void Brie_Quality_Should_Increase_2_after_SellIn()
     {
         items = new List<Item>{
-            new Item { Name = "Aged Brie", SellIn = 0, Quality = 10 }
+            new AgedBrie (name: "Aged Brie", sellIn: 0, quality: 10)
             };
 
         Program.UpdateQuality(items);
@@ -75,11 +73,9 @@ public class ProgramTests
     public void Backstagepass_value_increase_2_When9DaysTillConcert()
     {
         items = new List<Item>{
-            new Item {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
-                    SellIn = 9,
-                    Quality = 22
-                }
+            new BackStagepass(name: "Backstage passes to a TAFKAL80ETC concert",
+                            sellIn: 9, 
+                            quality: 22)
             };
 
         Program.UpdateQuality(items);
@@ -91,11 +87,9 @@ public class ProgramTests
     public void Backstagepass_value_increase_3_When4DaysTillConcert()
     {
         items = new List<Item>{
-            new Item {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
-                    SellIn = 4,
-                    Quality = 22
-                }
+            new BackStagepass(name: "Backstage passes to a TAFKAL80ETC concert",
+                            sellIn: 4, 
+                            quality: 22)
             };
 
         Program.UpdateQuality(items);
@@ -107,11 +101,9 @@ public class ProgramTests
     public void Backstagepass_value_dropTo_0_WhenConcertDone()
     {
         items = new List<Item>{
-            new Item {
-                    Name = "Backstage passes to a TAFKAL80ETC concert",
-                    SellIn = 0,
-                    Quality = 22
-                }
+            new BackStagepass(name: "Backstage passes to a TAFKAL80ETC concert",
+                            sellIn: 0, 
+                            quality: 22)
             };
 
         Program.UpdateQuality(items);
@@ -123,7 +115,7 @@ public class ProgramTests
     public void Sulfura_never_changes()
     {
         items = new List<Item>{
-            new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 }
+            new Sulfura (name: "Sulfuras, Hand of Ragnaros", sellIn: 0, quality: 80)
             };
 
         Program.UpdateQuality(items);
@@ -132,10 +124,28 @@ public class ProgramTests
     }
 
 
-    /*[Fact]
+    [Fact]
     public void Conjured_Quality_Decrease_2_perday()
     {
-        throw new NotImplementedException();
-    }*/
+        items = new List<Item>{
+            new Conjured(name: "Conjured Mana Cake", sellIn: 3, quality: 6)
+            };
+
+        Program.UpdateQuality(items);
+        items[0].Quality.Should().Be(4);
+        items[0].SellIn.Should().Be(2);
+    }
+
+    [Fact]
+    public void Conjured_Quality_Decrease_4_after_sellIn()
+    {
+        items = new List<Item>{
+            new Conjured(name: "Conjured Mana Cake", sellIn: 0, quality: 6)
+            };
+
+        Program.UpdateQuality(items);
+        items[0].Quality.Should().Be(2);
+        items[0].SellIn.Should().Be(-1);
+    }
 
 }
